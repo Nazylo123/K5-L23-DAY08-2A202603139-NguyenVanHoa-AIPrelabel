@@ -1,1 +1,2 @@
 case_id,image,nguon,van_de,quyet_dinh,quy_tac_ghi_vao_guideline,phien_ban_guideline
+CAL-01,img_013.jpg,loi_may,SAM 2.1 Tiny tô dính ba người phía sau xe.,Loại phần mask dính người và chỉ giữ vùng thuộc xe.,Áp dụng mục 4.2 của v1.0; không cần thêm quy tắc.,v1.0

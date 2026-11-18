@@ -1,4 +1,4 @@
-# Label contract — Phố châu Á — BỔ SUNG v1.1 — <<MSHV - Họ tên>>
+# Label contract — Phố châu Á — BỔ SUNG v1.1 — 2A202603139 - Nguyễn Văn Hoa
 
 > **Chỉ viết phần thay đổi so với v1.0** (không copy cả file). Chốt các câu hỏi mở ở mục 6 của v1.0 (hoặc nói rõ câu nào chưa chốt, vì sao)
 > và thêm quy tắc mới rút ra từ lỗi của máy / lỗi của bạn. Mỗi ca khó **có ảnh ví dụ** (`img_0xx`) và khớp một dòng trong `qc/calibration_decisions.csv`.
@@ -13,7 +13,7 @@
 
 | Ảnh | Tình huống | Máy làm gì (model nào) | Quyết định của bạn | Quy tắc mới (vào mục nào của v1.0) |
 |---|---|---|---|---|
-| <<img_0xx>> | <<>> | <<>> | <<>> | <<>> |
+| `img_013.jpg` (`CAL-01`) | Ba người đứng sát phía sau xe. | SAM 2.1 Tiny tô dính cả ba người. | Bỏ phần mask dính người, chỉ giữ vùng thuộc xe. | Không thêm quy tắc; áp dụng mục 4.2 của v1.0. |
 
 ## 3. Lịch sử thay đổi
 
