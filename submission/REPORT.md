@@ -19,25 +19,25 @@
 
 | Trạng thái | Số | Tỉ lệ | Mẫu số |
 |---|---|---|---|
-| accepted | <<>> | <<>> | <<box máy>> |
-| edited | <<>> | <<>> | <<>> |
-| deleted | <<>> | <<>> | <<>> |
-| added | <<>> | <<>> | <<đối tượng sau duyệt>> |
+| accepted | 216 | 92,7% | 233 box máy |
+| edited | 5 | 2,1% | 233 box máy |
+| deleted | 12 | 5,2% | 233 box máy |
+| added | 13 | 5,6% | 234 đối tượng sau duyệt |
 
-- Lớp nào máy tệ nhất? Vì sao (dẫn ảnh)? <<>>
-- So với gold: precision / recall của **máy** <<>> (mẫu số: <<đối tượng gold>>)
+- Khi duyệt, mình thấy `person` và `motorbike` khó kiểm tra nhất ở những vùng đông, vì người và xe che khuất lẫn nhau. Ảnh minh họa: <<>>
+- So với 4 ảnh gold, precision của máy là 24/35 = 68,6% (35 box dự đoán); recall là 24/36 = 66,7% (36 đối tượng gold được tính). Nguồn: `qc/review_stats.md`.
 
 ## 3. Thiên kiến tự động hóa và ảnh bẫy
 
-- Bắt bẫy: <<.../12>>; loại nào lọt: <<>>; vì sao (bạn đã bỏ bước nào của checklist)? <<>>
+- Bắt được 7/12 bẫy (58,3%), dưới mốc 80%. Lọt 2 bẫy bỏ sót, 1 sai lớp, 1 box lỏng và 1 box thừa (`qc/review_stats.md`). Mình nghĩ ở những vùng đông, người và xe chồng lên nhau nên dễ nhìn sót khi duyệt.
 - Accepted cao mà bắt bẫy thấp (hoặc ngược lại) nói gì về cách bạn duyệt? <<>>
 
 ## 4. Máy có đáng dùng không?
 
-- Thời gian (từ `time_log.csv`): gán tay <<... phút/ảnh>> vs duyệt <<... phút/ảnh>>. Thiên lệch (bạn gán gold trước nên đã quen cảnh): <<>>
+- Thời gian (từ `time_log.csv`): gán tay khoảng 20 phút cho 4 ảnh; duyệt khoảng 45–60 phút cho 24 ảnh. Cả hai là ước lượng, không phải thời gian đo. Thiên lệch (gán gold trước nên có thể đã quen cảnh): <<>>
 - Kết luận: <<có / không / chỉ cho lớp nào>>, dựa trên <<số liệu>>
 - **Ba quy tắc giảm thiên kiến của bạn** (mỗi quy tắc kiểm tra được bằng số hoặc việc làm):
-  1. <<>>
+  1. Phóng to vùng đông người và xe máy, rồi rà từng người và từng xe thay vì nhìn cả cụm một lượt.
   2. <<>>
   3. <<>>
 
@@ -45,10 +45,14 @@
 
 | Ảnh | SAM (phiên bản) | Số click | Mask gồm người lái / hàng hoá? | Lỗi quan sát | File trong `masks/` |
 |---|---|---|---|---|---|
-| <<img_0xx>> | <<>> | <<>> | <<>> | <<>> | <<>> |
+| `img_013.jpg` | SAM 2.1 Tiny | 3 (2 dương, 1 âm) | Chưa xác nhận người lái / hàng hóa | Mask dính ba người phía sau xe. | `tuktuk_img013.jpg` |
+| `img_004.jpg` | SAM 2.1 Tiny | 3 (2 dương, 1 âm) | Không thấy dính rõ người hoặc hàng hóa | Mask chủ yếu phủ một xe nhưng hơi lem xuống mặt đất. | `tuktuk_img004.jpg` |
+| `img_017.jpg` | SAM 2.1 Tiny | 3 (2 dương, 1 âm) | Không thấy dính rõ người hoặc hàng hóa | Mask phủ một xe; nhìn chung tạm ổn. | `tuktuk_img017.jpg` |
 
-- Đối chiếu guideline mục 4.2: quy tắc nào giúp, quy tắc nào thiếu? <<>>
-- *(Tuỳ chọn)* Interactor SAM trong CVAT: làm được / không (lỗi gì, đã thử gì); khác gì offline: <<>>
+Với ba điểm gợi ý mỗi ảnh, mình thấy bản Tiny cho kết quả khá tốt ở hai ảnh này. Ảnh `img_013.jpg` vẫn cho thấy cần kiểm tra người đứng sát xe.
+
+- Đối chiếu guideline mục 4.2: mask cần bám phần nhìn thấy của vật, không lấy bóng đổ và không lấn sang vật khác. `img_004.jpg` hơi lem xuống mặt đất; `img_013.jpg` dính ba người phía sau xe. Chưa chốt bổ sung quy tắc ở bước này.
+- *(Tuỳ chọn)* Không chạy đối chiếu ba ảnh này bằng Interactor trong CVAT; kết quả trên được tạo bằng `sam2_points.py`.
 
 ## 6. Calibration (Part 6)
 
@@ -69,7 +73,7 @@ Nếu Rework / Hold, việc cần làm tiếp: <<>>
 
 ## 8. Ghi chú cá nhân
 
-- **Dùng AI để làm bài** (công cụ nào, việc gì, kiểm tra thế nào; "không dùng" nếu không): <<>>
+- **Dùng AI để làm bài:** Hermes hỗ trợ giải thích các bước, chạy lệnh kiểm tra, chạy script SAM theo tọa độ mẫu và ghi lại số liệu, nhận xét của mình. Số liệu review được đối chiếu với `qc/review_stats.md`; mình duyệt nhãn trên CVAT và xem trực tiếp ảnh mask để nhận xét.
 - Gold có bị nhiễm không (bạn có nhìn pre-label hay hỏi AI trước khi gán xong)? <<không / có, như sau: ...>>
 - Máy / GPU / CVAT dùng; vướng mắc cài đặt: <<>>
 - Dùng cache `data/cache/` thay vì tự chạy? <<không / có, vì ...>>
